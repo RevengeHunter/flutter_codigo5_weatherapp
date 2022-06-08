@@ -50,10 +50,16 @@ class _HomePageState extends State<HomePage> {
           isLoading = false;
           setState(() {});
         } else {
-          print("Hubo un error");
           isLoading = false;
-          showMessage();
+          // showMessage();
           setState(() {});
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text(
+                  "No se encontro ninguna coincidencia, por favor intente nuevamente."),
+            ),
+          );
         }
       });
     });
@@ -102,9 +108,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () {
               isLoading = true;
-              setState(() {
-
-              });
+              setState(() {});
               _getDataWeatherLocation();
             },
             icon: Icon(
@@ -126,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                     height: height * 0.03,
                   ),
                   Image.asset(
-                    'assets/images/${weatherModel?.weather[0].icon ?? "ventoso"}.png',
+                    'assets/images/${weatherModel?.weather[0].description ?? "mist"}.png',
                     height: height * 0.16,
                   ),
                   const SizedBox(
@@ -234,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                           right: 10,
                           top: -50,
                           child: Image.asset(
-                            'assets/images/ventoso.png',
+                            'assets/images/mist.png',
                             scale: 7,
                           ),
                         ),
