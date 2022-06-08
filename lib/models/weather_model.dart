@@ -127,7 +127,7 @@ class Main {
   int? grndLevel;
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
-    temp: roundDouble((((json["temp"].toDouble()) - 32) * (5/9)),2),
+    temp: roundDouble(((json["temp"].toDouble()) - 273.15),2),
     feelsLike: json["feels_like"].toDouble(),
     tempMin: json["temp_min"].toDouble(),
     tempMax: json["temp_max"].toDouble(),
