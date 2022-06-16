@@ -2,10 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo5_weatherapp/models/forecast_model.dart';
 
 import '../general/colors.dart';
 
 class WeatherItemInfoWidget extends StatelessWidget {
+
+  ForeCastModel foreCastModel;
+  WeatherItemInfoWidget({required this.foreCastModel,});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class WeatherItemInfoWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "9:00 AM",
+            foreCastModel.dtTxt.toString().substring(11,16),
             style: TextStyle(
               color: Color(0xffADB6B7),
               fontSize: 12.0,
@@ -34,7 +38,7 @@ class WeatherItemInfoWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12.0,),
           Image.asset(
-            'assets/images/cloud.png',
+              'assets/images/${foreCastModel.weather[0].description}.png',
             height: 34.0,
             color: Colors.white,
           ),
@@ -43,7 +47,7 @@ class WeatherItemInfoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "29",
+                foreCastModel.main.temp.toStringAsFixed(0),
                 style: TextStyle(
                   color: kTextPrimaryColor,
                   fontWeight: FontWeight.bold,
@@ -51,7 +55,7 @@ class WeatherItemInfoWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "º",
+                "ºC",
                 style: TextStyle(
                   color: kTextPrimaryColor,
                   fontWeight: FontWeight.bold,

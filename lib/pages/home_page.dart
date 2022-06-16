@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo5_weatherapp/models/forecast_model.dart';
 import 'package:flutter_codigo5_weatherapp/models/weather_model.dart';
 import 'package:flutter_codigo5_weatherapp/services/api_service.dart';
 import 'package:flutter_codigo5_weatherapp/ui/general/colors.dart';
@@ -16,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   final ApiService apiService = ApiService();
   final TextEditingController txtCityNameController = TextEditingController();
   WeatherModel? weatherModel;
+  List<ForeCastModel> foreCastModelList = [];
   bool isLoading = true;
 
   @override
@@ -38,6 +40,19 @@ class _HomePageState extends State<HomePage> {
         showMessage();
         setState(() {});
       }
+    });
+  }
+
+  _getForeCast() {
+    Geolocator.getCurrentPosition().then((position) {
+      print(position);
+      apiService.getDataWeatherForecast(position).then((value) {
+        if (value != null) {
+          foreCastModelList = value;
+          isLoading = false;
+          setState(() {});
+        }
+      });
     });
   }
 
@@ -110,6 +125,7 @@ class _HomePageState extends State<HomePage> {
               isLoading = true;
               setState(() {});
               _getDataWeatherLocation();
+              _getForeCast();
             },
             icon: Icon(
               Icons.location_on,
@@ -206,15 +222,7 @@ class _HomePageState extends State<HomePage> {
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     child: Row(
-                      children: [
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                        WeatherItemInfoWidget(),
-                      ],
+                      children: foreCastModelList.map((e) => WeatherItemInfoWidget(foreCastModel: e,)).toList(),
                     ),
                   ),
                   const SizedBox(
